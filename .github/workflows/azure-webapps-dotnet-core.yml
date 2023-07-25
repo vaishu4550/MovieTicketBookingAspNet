@@ -8,7 +8,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: movieback
-  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+  AZURE_WEBAPP_PACKAGE_PATH: "."
   
 jobs:
   publish:
@@ -23,13 +23,13 @@ jobs:
         dotnet-version: '6.0.x'
         
     - name: Restore
-      run: dotnet restore ./MovieTicketBooking.sln
+      run: dotnet restore
       
     - name: Build
-      run: dotnet build ./MovieTicketBooking.sln --configuration Release --no-restore
+      run: dotnet build --configuration Release
     
     - name: Publish
-      run: dotnet publish ./MovieTicketBooking.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+      run: dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
       
     - name: Deployment
       uses: azure/webapps-deploy@v2
